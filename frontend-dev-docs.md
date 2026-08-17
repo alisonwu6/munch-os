@@ -1,7 +1,7 @@
-# munch-os — Angular 學習與作品集專案
+# munch-os — Angular
 
 ## 目標
-從零學 Angular，準備應徵前端職缺（Angular SaaS 產品開發）。用一個「餐飲系統」當練習題材——服務未來自己的餐車，涵蓋庫存管理與顧客點餐流程。這個專案本身就是面試作品集。
+從零學 Angular，準備應徵前端職缺（Angular SaaS 產品開發）。用一個「餐飲系統」當練習題材——服務未來自己的餐車，涵蓋庫存管理與顧客點餐流程。
 
 **學習者背景**：有 React 開發經驗，第一次寫 Angular。教學步調已加快，跳過基礎 component 心智模型的重複解釋，直接講 Angular 特有機制。
 
@@ -62,7 +62,36 @@
 
 ---
 
-## 已驗證的關鍵觀念（不用重教）
+## App 畫面規劃
+
+兩種角色、共 6 個畫面，資料靠同一份 json-server（`menuItems` / `orders`，庫存狀態包在 `menuItems[].stockStatus` 裡）串起來。實作時機：階段 4（Routing）。
+
+**顧客端（手機）**
+1. 菜單瀏覽 `/menu` — 看菜單、加入購物車，顯示庫存狀態（已售完/補貨中）
+2. 購物車／送出訂單 `/cart`
+3. 訂單追蹤 `/orders/:id` — 已接單 → 製作中 → 可取餐
+
+**後台／廚房站（平板）**
+4. 訂單看板 `/admin/orders` — 新訂單 → 開始製作 → 標記可取餐 → 完成取餐
+5. 庫存管理 `/admin/inventory` — 改品項的補貨中/已售完狀態
+6. 菜單管理 `/admin/menu` — CRUD 菜單品項、價格
+
+```
+顧客流程：菜單瀏覽 → 購物車 → 送出 → 訂單追蹤
+後台流程：菜單管理/庫存管理 寫入資料 → 顧客端讀取顯示
+         訂單看板 更新狀態 → 顧客訂單追蹤頁同步
+```
+
+正式版流程圖：[`docs/user-flow.puml`](./docs/user-flow.puml)（PlantUML，可用 VSCode PlantUML 外掛或 plantuml.com 渲染）
+
+**json-server 資料結構**：[`db.json`](./db.json)（階段 3 會用 `json-server --watch db.json` 啟動假 API）
+
+- `menuItems[].stockStatus`：`"available"` | `"soldOut"` | `"restocking"`（對應截圖的正常/已售完/補貨中）
+- `orders[].status`：`"received"` | `"inProgress"` | `"ready"` | `"completed"`（對應廚房看板的三欄 + 顧客追蹤的三段進度條）
+
+---
+
+## 已驗證的關鍵觀念
 
 - React vs Angular：React 是 library（自己選 router/HTTP 套件），Angular 是完整 framework（routing/HTTP/DI/forms 官方統一規格）
 - Angular component = `@Component` decorator + class（邏輯）+ `.html`（模板）+ `.scss`（樣式）三檔案
@@ -76,6 +105,6 @@
 
 1. 讀這份檔案，確認目前卡在哪個階段／任務
 2. 檢查 `src/app/` 實際檔案結構，跟本文件記錄的進度對照，確認學習者是否真的完成了勾選的項目（不要盡信勾選狀態，用 `ls`／`cat` 實際確認檔案內容）
-3. 延續 code-mentor 教學方式：Orient → Mental Model → Feynman 中文解釋 → Check Understanding（不接受「我懂了」，要看到證據）→ Progressive Challenges，不直接把答案/程式碼寫給學習者
-4. 教學步調：學習者有 React 經驗，跳過基礎 component 概念重複解釋，聚焦 Angular 特有機制
+3. 延續 code-mentor 教學方式：Orient → Mental Model → Feynman 解釋 → Check Understanding → Progressive Challenges，不直接把答案/程式碼寫給學習者
+4. 教學步調：學習者有 React 跟 vue 經驗，跳過基礎 component 概念重複解釋，聚焦 Angular 特有機制
 5. 每完成一個階段，回來更新這份檔案的進度勾選與「已驗證的關鍵觀念」區塊

@@ -1,0 +1,39 @@
+@startuml MunchOS User Flow
+
+skinparam backgroundColor white
+skinparam activity {
+  BackgroundColor #f5f5f5
+  BorderColor #888888
+}
+
+|顧客 (手機)|
+start
+:菜單瀏覽 /menu;
+if (品項有庫存?) then (有)
+  :加入購物車;
+else (已售完)
+  :顯示「已售完」標籤;
+  stop
+endif
+:購物車 /cart;
+:送出訂單;
+:訂單追蹤 /orders/:id;
+note right: 狀態隨後台更新即時反映：\n已接單 → 製作中 → 可取餐
+
+|後台・廚房站 (平板)|
+:訂單看板 /admin/orders;
+:開始製作 (狀態 → 製作中);
+:標記可取餐 (狀態 → 可取餐);
+:完成取餐 (狀態 → 完成);
+
+|管理者|
+:菜單管理 /admin/menu\n(新增/編輯品項、價格);
+:庫存管理 /admin/inventory\n(切換 補貨中/已售完);
+note right
+  管理者的操作寫入 json-server，
+  顧客端與廚房站都讀同一份資料，
+  所以任一方更新，其他畫面會同步反映。
+end note
+
+stop
+@enduml
