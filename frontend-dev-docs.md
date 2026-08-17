@@ -49,9 +49,12 @@
   - [x] `menu-item` component：`@Input() name/price`（標 TypeScript 型別）、`{{ }}` 顯示
   - [x] `menu-list` component：`menuItems` 陣列、`@for` 迴圈、`[name]`/`[price]` property binding
   - [x] `app.component.html` 掛載 `<app-menu-list>`
-- [ ] **階段 2** — Service + Dependency Injection（對應必要①、加分⑤概念）
-  - 下一步：把 `menu-list.component.ts` 裡寫死的 `menuItems` 陣列搬到獨立 Service
+- [x] **階段 2** — Service + Dependency Injection（對應必要①、加分⑤概念）
+  - [x] `menu.service.ts`：`@Injectable({ providedIn: 'root' })`，`getMenuItems()` 回傳資料
+  - [x] `MenuListComponent` 用 constructor injection（`constructor(private menuService: MenuService)`）拿資料，不再寫死陣列
+  - [x] `MenuItem` interface 獨立放 `src/app/models/menu-item.model.ts`，service 跟 component 共用
 - [ ] **階段 3** — HttpClient + json-server 串接 RESTful API（對應必要③；順帶教 DevTools Network tab，對應加分①）
+  - 下一步：啟動 `json-server --watch db.json`，把 `MenuService.getMenuItems()` 從回傳寫死陣列改成用 `HttpClient` 打 `GET /menuItems`，回傳型別變成 `Observable<MenuItem[]>`
 - [ ] **階段 4** — Routing + Lazy loading（對應加分③）
 - [ ] **階段 5** — Reactive Forms（對應必要②）
 - [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
@@ -102,6 +105,9 @@
 - Property binding `[name]="item.name"`：父元件把值「傳進」子元件的 `@Input()`，跟 `{{ }}`（把值顯示成文字）是不同機制
 - `@for (item of list; track item.x) { ... }`：新版控制流程語法，取代舊的 `*ngFor`
 - 元件不能在自己的 template 裡引用自己（`<app-x>` 出現在 `x.component.html` 裡）——會無限遞迴，跟 React function component return 自己一樣的錯誤
+- Dependency Injection：不用像 React hook 主動呼叫，在 constructor 參數寫 `private xxxService: XxxService`，Angular 自動生成並傳入 instance（控制反轉）；`@Injectable({ providedIn: 'root' })` 效果類似 React Context Provider 包在 App 最外層，全 app 共用一份
+- 空陣列 `= []` 沒有明確標型別時，TypeScript 會推斷成 `never[]`（不能放任何東西），之後賦值會報型別錯誤——陣列一定要明確標型別，不能靠空陣列讓 TS 自己猜
+- interface 不建議寫在 service 檔案裡，應獨立放 `models/` 資料夾（如 `menu-item.model.ts`），service 跟 component 都從同一處 import，避免形狀重複定義、之後改一個地方就好
 
 ---
 
