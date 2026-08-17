@@ -45,12 +45,12 @@
 ## 路線圖與進度
 
 - [x] **階段 0** — Angular CLI、workspace 結構、第一個 component（對應必要①⑥）
-- [ ] **階段 1** — Component、Template、Data binding（`{{ }}` interpolation）（對應必要①②）
-  - 進行中任務：建立 `menu-item` component
-    - [ ] class 裡加 `name`、`price` property（標 TypeScript 型別）
-    - [ ] template 用 `{{ }}` 顯示這兩個值
-    - [ ] 在 `app.component.html` 用 `menu-item` 的 selector 把它掛進畫面
+- [x] **階段 1** — Component、Template、Data binding（`{{ }}` interpolation）（對應必要①②）
+  - [x] `menu-item` component：`@Input() name/price`（標 TypeScript 型別）、`{{ }}` 顯示
+  - [x] `menu-list` component：`menuItems` 陣列、`@for` 迴圈、`[name]`/`[price]` property binding
+  - [x] `app.component.html` 掛載 `<app-menu-list>`
 - [ ] **階段 2** — Service + Dependency Injection（對應必要①、加分⑤概念）
+  - 下一步：把 `menu-list.component.ts` 裡寫死的 `menuItems` 陣列搬到獨立 Service
 - [ ] **階段 3** — HttpClient + json-server 串接 RESTful API（對應必要③；順帶教 DevTools Network tab，對應加分①）
 - [ ] **階段 4** — Routing + Lazy loading（對應加分③）
 - [ ] **階段 5** — Reactive Forms（對應必要②）
@@ -98,6 +98,10 @@
 - Selector 是 component 在 HTML 裡的標籤名，要跟使用的地方（如 `index.html` 的 `<app-root>`）字串比對，對不上畫面會空白
 - String interpolation `{{ }}`：把 class property 的值塞進模板，等同 React JSX 的 `{value}`，但雙大括號
 - Standalone component 用 `imports: []` 自己宣告依賴，不需要 `NgModule`
+- `@Input()`：子元件的 class property 加這個裝飾器，代表值由父元件傳入，等同 React 的 props；strict mode 下要給預設值或用 `!` 斷言
+- Property binding `[name]="item.name"`：父元件把值「傳進」子元件的 `@Input()`，跟 `{{ }}`（把值顯示成文字）是不同機制
+- `@for (item of list; track item.x) { ... }`：新版控制流程語法，取代舊的 `*ngFor`
+- 元件不能在自己的 template 裡引用自己（`<app-x>` 出現在 `x.component.html` 裡）——會無限遞迴，跟 React function component return 自己一樣的錯誤
 
 ---
 
