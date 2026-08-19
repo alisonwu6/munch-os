@@ -64,8 +64,10 @@
   - [x] `app.component.html` 移除寫死的 `<app-menu-list>`，改用 `<router-outlet />` 渲染
   - [x] `app.component.ts` 的 `imports: []` 只留 template 真正用到的東西（`RouterOutlet`、`RouterLink`），元件不再被父層 import 的話要記得移除，避免無用 import 警告
   - [x] `<nav>` 用 `routerLink` 導覽（不整頁刷新）
+  - [x] 剩餘 4 個畫面空殼元件建好並掛路由：`orders/:id`（`OrderTrackingComponent`）、`admin/orders`、`admin/inventory`、`admin/menu`（後三個放在 `src/app/admin/` 子資料夾，對應加分⑥目錄結構規劃）
+  - [x] 路由參數：`ActivatedRoute` + `this.route.snapshot.paramMap.get('id')` 讀取 `:id`
   - [ ] Lazy loading（`loadComponent`）刻意延後到階段 9，跟其他效能優化技巧一起
-  - 下一步：照 `docs/user-flow.puml` 剩餘畫面（orders/:id、admin/orders、admin/inventory、admin/menu）建空殼元件掛路由，之後在階段 5/6 逐步填入真正內容
+  - 下一步：6 個畫面骨架都在了，之後在階段 5（表單）填 `CartComponent`，階段 6（Angular Material）統一套版
 - [ ] **階段 5** — Reactive Forms（對應必要②）
 - [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
 - [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
@@ -125,6 +127,7 @@
 - `imports: []` 是元件自己 template 的區域宣告，不是全域註冊——A 元件 import 過某元件，不代表 B 元件也能直接用，每個元件要各自 import 自己模板用到的東西
 - `routerLink`（取代 `<a href>`）：點擊換路由不整頁刷新，是 SPA 導覽的標準寫法，要用就要在該元件的 `imports: []` 加 `RouterLink`
 - 根路徑導向：`{ path: '', redirectTo: 'menu', pathMatch: 'full' }`，`pathMatch: 'full'` 是必填，避免用「前綴符合」邏輯誤判其他路由
+- 路由參數（`:id`）：路徑寫 `orders/:id`，元件裡用 DI 注入內建的 `ActivatedRoute`，`this.route.snapshot.paramMap.get('id')` 讀出網址實際填的值
 
 ---
 
