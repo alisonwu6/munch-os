@@ -59,8 +59,13 @@
   - [x] `MenuService.getMenuItems()` 改用 `HttpClient.get<MenuItem[]>(url)`，回傳 `Observable<MenuItem[]>`
   - [x] `MenuListComponent` 改用 `.subscribe((data) => { this.menuItems = data; })` 拿資料
   - [x] 驗證：畫面顯示 11 筆真實資料、DevTools Network tab 看到 `GET localhost:3000/menuItems` 200/304
-- [ ] **階段 4** — Routing + Lazy loading（對應加分③）
-  - 下一步：照 `docs/user-flow.puml` 的 6 個畫面規劃，把 `/menu` 路由指到現有的 `MenuListComponent`，其餘頁面（cart, orders/:id, admin/*）先建空殼元件掛路由
+- [x] **階段 4** — Routing（核心部分）（對應加分③部分）
+  - [x] `app.routes.ts`：`{ path: '', redirectTo: 'menu', pathMatch: 'full' }`、`/menu` → `MenuListComponent`、`/cart` → `CartComponent`（空殼）
+  - [x] `app.component.html` 移除寫死的 `<app-menu-list>`，改用 `<router-outlet />` 渲染
+  - [x] `app.component.ts` 的 `imports: []` 只留 template 真正用到的東西（`RouterOutlet`、`RouterLink`），元件不再被父層 import 的話要記得移除，避免無用 import 警告
+  - [x] `<nav>` 用 `routerLink` 導覽（不整頁刷新）
+  - [ ] Lazy loading（`loadComponent`）刻意延後到階段 9，跟其他效能優化技巧一起
+  - 下一步：照 `docs/user-flow.puml` 剩餘畫面（orders/:id、admin/orders、admin/inventory、admin/menu）建空殼元件掛路由，之後在階段 5/6 逐步填入真正內容
 - [ ] **階段 5** — Reactive Forms（對應必要②）
 - [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
 - [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
@@ -116,6 +121,10 @@
 - Observable（RxJS）vs Promise：Promise 呼叫當下就送出（eager），Observable 呼叫 `http.get()` 只是準備請求，要 `.subscribe()` 才真的發送（lazy）。不 subscribe，Network tab 完全不會有 request
 - standalone 架構下，全 app 共用的服務（如 `provideHttpClient()`、`provideRouter()`）註冊在 `app.config.ts` 的 `providers: []`，取代舊版 `NgModule` 的角色
 - json-server 要在專案根目錄（`db.json` 所在位置）執行 `--watch db.json`，在錯的資料夾執行會自動生成一份 typicode 預設範例資料，覆蓋不了你的真實資料但容易搞混
+- `<router-outlet />` 是插槽，`app.routes.ts` 是頻道表，網址決定插槽裡渲染哪個元件；元件一旦交給路由管理，就不能再同時寫死掛在別的 template 裡，否則畫面邏輯衝突
+- `imports: []` 是元件自己 template 的區域宣告，不是全域註冊——A 元件 import 過某元件，不代表 B 元件也能直接用，每個元件要各自 import 自己模板用到的東西
+- `routerLink`（取代 `<a href>`）：點擊換路由不整頁刷新，是 SPA 導覽的標準寫法，要用就要在該元件的 `imports: []` 加 `RouterLink`
+- 根路徑導向：`{ path: '', redirectTo: 'menu', pathMatch: 'full' }`，`pathMatch: 'full'` 是必填，避免用「前綴符合」邏輯誤判其他路由
 
 ---
 
