@@ -1,1 +1,11 @@
-<p>cart works!</p>
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+  <label>
+    姓名
+    <input formControlName="customerName" />
+  </label>
+  <label>
+    備註
+    <input formControlName="notes" />
+  </label>
+  <button type="submit">送出訂單</button>
+</form>

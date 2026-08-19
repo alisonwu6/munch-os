@@ -68,7 +68,10 @@
   - [x] 路由參數：`ActivatedRoute` + `this.route.snapshot.paramMap.get('id')` 讀取 `:id`
   - [ ] Lazy loading（`loadComponent`）刻意延後到階段 9，跟其他效能優化技巧一起
   - 下一步：6 個畫面骨架都在了，之後在階段 5（表單）填 `CartComponent`，階段 6（Angular Material）統一套版
-- [ ] **階段 5** — Reactive Forms（對應必要②）
+- [x] **階段 5** — Reactive Forms（對應必要②）
+  - [x] `CartComponent`：`FormGroup` + `FormControl`（`customerName` 必填、`notes` 選填），`[formGroup]`/`formControlName`/`(ngSubmit)`
+  - [x] `onSubmit()` 用 `this.orderForm.valid` 擋無效送出
+  - 下一步（之後補強，非本階段必做）：目前訂單表單還沒接上真正的購物車品項與 `POST /orders`，這塊留到串接完整下單流程時再做
 - [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
 - [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
 - [ ] **階段 8** — SCSS 架構／BEM／模組化樣式（對應加分④）
@@ -128,6 +131,8 @@
 - `routerLink`（取代 `<a href>`）：點擊換路由不整頁刷新，是 SPA 導覽的標準寫法，要用就要在該元件的 `imports: []` 加 `RouterLink`
 - 根路徑導向：`{ path: '', redirectTo: 'menu', pathMatch: 'full' }`，`pathMatch: 'full'` 是必填，避免用「前綴符合」邏輯誤判其他路由
 - 路由參數（`:id`）：路徑寫 `orders/:id`，元件裡用 DI 注入內建的 `ActivatedRoute`，`this.route.snapshot.paramMap.get('id')` 讀出網址實際填的值
+- Reactive Forms：`FormGroup` 裝多個 `FormControl`，`[formGroup]`（property binding，把整個表單物件綁上 `<form>`）+ `formControlName`（指定 input 對應哪個 control）+ `(ngSubmit)`（event binding，圓括號代表監聽事件，等同 React `onSubmit`）
+- `Validators.required` 只標記欄位合法性，不會自動擋送出，要在 submit handler 手動檢查 `this.formGroup.valid`；抓整體用 `.valid`，抓單一欄位用 `.get('field').valid`
 
 ---
 
