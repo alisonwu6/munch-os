@@ -1,11 +1,13 @@
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-  <label>
-    姓名
-    <input formControlName="customerName" />
-  </label>
-  <label>
-    備註
-    <input formControlName="notes" />
-  </label>
-  <button type="submit">送出訂單</button>
+  <mat-form-field>
+    <mat-label>姓名</mat-label>
+    <input matInput formControlName="customerName" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>備註</mat-label>
+    <input matInput formControlName="notes" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">送出訂單</button>
 </form>

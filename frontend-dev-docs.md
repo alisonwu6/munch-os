@@ -72,7 +72,11 @@
   - [x] `CartComponent`：`FormGroup` + `FormControl`（`customerName` 必填、`notes` 選填），`[formGroup]`/`formControlName`/`(ngSubmit)`
   - [x] `onSubmit()` 用 `this.orderForm.valid` 擋無效送出
   - 下一步（之後補強，非本階段必做）：目前訂單表單還沒接上真正的購物車品項與 `POST /orders`，這塊留到串接完整下單流程時再做
-- [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
+- [x] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
+  - [x] `ng add @angular/material`（indigo-pink 主題，`angular.json` 的 `styles` 陣列引入 `prebuilt-themes/indigo-pink.css`）
+  - [x] `menu-item` 套 `MatCardModule`（`mat-card`/`mat-card-content`），`menu-list.component.scss` 用 `:host { display:flex; gap:12px }` 補間距
+  - [x] `cart` 表單套 `MatFormFieldModule`/`MatInputModule`/`MatButtonModule`（`mat-form-field`/`matInput`/`mat-raised-button`）
+  - [x] 除錯經驗：改 `angular.json` 後 `ng serve` 不會自動生效，要重啟；已知 bundle 超出 500kB 預算警告，留到階段 9 用 lazy loading 處理
 - [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
 - [ ] **階段 8** — SCSS 架構／BEM／模組化樣式（對應加分④）
 - [ ] **階段 9** — 效能優化（OnPush、trackBy、bundle 分析、code splitting）（對應加分③）
@@ -133,6 +137,10 @@
 - 路由參數（`:id`）：路徑寫 `orders/:id`，元件裡用 DI 注入內建的 `ActivatedRoute`，`this.route.snapshot.paramMap.get('id')` 讀出網址實際填的值
 - Reactive Forms：`FormGroup` 裝多個 `FormControl`，`[formGroup]`（property binding，把整個表單物件綁上 `<form>`）+ `formControlName`（指定 input 對應哪個 control）+ `(ngSubmit)`（event binding，圓括號代表監聽事件，等同 React `onSubmit`）
 - `Validators.required` 只標記欄位合法性，不會自動擋送出，要在 submit handler 手動檢查 `this.formGroup.valid`；抓整體用 `.valid`，抓單一欄位用 `.get('field').valid`
+- Angular Material 元件套用方式跟其他依賴一致：import + `imports: []`，沒有特殊規則
+- `:host` 是 Angular 特有 CSS selector，指元件自己的最外層標籤；Angular 元件樣式預設作用域隔離（scoped），只影響自己不外漏
+- `angular.json` 的設定變更（如 `ng add` 新增全域 style）不會被 `ng serve` 熱重載偵測到，要手動重啟 dev server
+- Angular CLI 有內建 bundle 大小預算（預設 500kB），超過會跳警告不是錯誤；多個 Material module 疊加容易觸發，對應階段 9 的 lazy loading/bundle 優化
 
 ---
 
