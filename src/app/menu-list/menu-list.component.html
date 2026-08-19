@@ -1,3 +1,7 @@
 @for (item of menuItems; track item.id) {
-  <app-menu-item [name]="item.name" [price]="item.price"></app-menu-item>
+  <app-menu-item
+    [name]="item.name"
+    [price]="item.price"
+    [stockStatus]="item.stockStatus">
+  </app-menu-item>
 }

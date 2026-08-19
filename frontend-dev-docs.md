@@ -77,8 +77,15 @@
   - [x] `menu-item` 套 `MatCardModule`（`mat-card`/`mat-card-content`），`menu-list.component.scss` 用 `:host { display:flex; gap:12px }` 補間距
   - [x] `cart` 表單套 `MatFormFieldModule`/`MatInputModule`/`MatButtonModule`（`mat-form-field`/`matInput`/`mat-raised-button`）
   - [x] 除錯經驗：改 `angular.json` 後 `ng serve` 不會自動生效，要重啟；已知 bundle 超出 500kB 預算警告，留到階段 9 用 lazy loading 處理
-- [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
-- [ ] **階段 8** — SCSS 架構／BEM／模組化樣式（對應加分④）
+- [x] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
+  - [x] `strict: true` 已在 `tsconfig.json` 開啟，階段 1-3 的型別錯誤（`never[]`、`@Input()` 需預設值）都是它在作用
+  - [x] interface 已於階段 2 practiced（`MenuItem` model）
+  - [x] generics：理解 `Observable<T>`/`http.get<T>()` 的機制，親手驗證回傳型別必須跟函式本體實際行為一致（`T` vs `T[]` 不匹配會編譯失敗，用 `tsc --strict` 實測過）
+- [x] **階段 8** — SCSS 架構／BEM／模組化樣式（對應加分④）
+  - [x] `MenuItem` model 加 `StockStatus` union type（`'available' | 'soldOut' | 'restocking'`），一路傳過 `MenuService` → `MenuListComponent` → `MenuItemComponent`
+  - [x] `menu-item` 套 BEM 命名：`.menu-item` / `.menu-item__name` / `.menu-item__price` / `.menu-item--sold-out`
+  - [x] `[class.x]="條件"` class binding 標記已售完狀態，`@if` 顯示「已售完」文字
+  - [x] `menu-item.component.scss` 用 SCSS `&` 巢狀寫 BEM，驗證畫面效果（已售完品項半透明 + 文字）
 - [ ] **階段 9** — 效能優化（OnPush、trackBy、bundle 分析、code splitting）（對應加分③）
 - [ ] **階段 10** — 專案架構收尾（資料夾規劃、README、作品集包裝）（對應加分⑥）
 
@@ -141,6 +148,11 @@
 - `:host` 是 Angular 特有 CSS selector，指元件自己的最外層標籤；Angular 元件樣式預設作用域隔離（scoped），只影響自己不外漏
 - `angular.json` 的設定變更（如 `ng add` 新增全域 style）不會被 `ng serve` 熱重載偵測到，要手動重啟 dev server
 - Angular CLI 有內建 bundle 大小預算（預設 500kB），超過會跳警告不是錯誤；多個 Material module 疊加容易觸發，對應階段 9 的 lazy loading/bundle 優化
+- Generics（`<T>`）是「型別的參數」：呼叫時代入具體型別（`Observable<MenuItem[]>`），容器/函式邏輯不變，內容物型別依代入值而定；函式簽名的回傳型別必須跟本體實際回傳的東西一致，不一致會編譯失敗（跟 strict mode 的紀律一脈相承）
+- Union type（`type X = 'a' | 'b' | 'c'`）：限定值只能是列舉的幾種字串之一，比 `string` 更精確，打錯字會編譯失敗
+- BEM：`.block`、`.block__element`（同一個 block 裡的部分，底線）、`.block--modifier`（狀態變化，連字號）；Element 不巢狀疊加，扁平命名
+- `[class.名稱]="布林條件"`：class binding，條件為真才加上該 class，比手動拼字串安全
+- Angular 元件樣式預設 scoped（作用域隔離），BEM 在 Angular 專案裡主要價值是「可讀性」，不是「防命名衝突」（衝突問題 Angular 已內建處理）
 
 ---
 

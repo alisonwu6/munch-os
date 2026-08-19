@@ -1,0 +1,13 @@
+.menu-item {
+  &__name {
+    font-weight: bold;
+  }
+
+  &__price {
+    color: gray;
+  }
+
+  &--sold-out {
+    opacity: 0.5;
+  }
+}

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { StockStatus } from '../models/menu-item.model';
 
 @Component({
   selector: 'app-menu-item',
@@ -12,4 +13,5 @@ export class MenuItemComponent {
   // price:number = 100;
   @Input() name: string = '';
   @Input() price: number = 0;
+  @Input() stockStatus: StockStatus = 'available';
 }

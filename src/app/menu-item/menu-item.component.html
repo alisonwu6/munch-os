@@ -1,6 +1,9 @@
-<mat-card>
+<mat-card class="menu-item" [class.menu-item--sold-out]="stockStatus === 'soldOut'">
   <mat-card-content>
-    <div>{{ name }}</div>
-    <div>{{ price }}</div>
+    <div class="menu-item__name">{{ name }}</div>
+    <div class="menu-item__price">NT$ {{ price }}</div>
+    @if (stockStatus === 'soldOut') {
+    <div class="menu-item__badge">已售完</div>
+    }
   </mat-card-content>
 </mat-card>
