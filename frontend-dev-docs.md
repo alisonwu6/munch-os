@@ -53,9 +53,14 @@
   - [x] `menu.service.ts`：`@Injectable({ providedIn: 'root' })`，`getMenuItems()` 回傳資料
   - [x] `MenuListComponent` 用 constructor injection（`constructor(private menuService: MenuService)`）拿資料，不再寫死陣列
   - [x] `MenuItem` interface 獨立放 `src/app/models/menu-item.model.ts`，service 跟 component 共用
-- [ ] **階段 3** — HttpClient + json-server 串接 RESTful API（對應必要③；順帶教 DevTools Network tab，對應加分①）
-  - 下一步：啟動 `json-server --watch db.json`，把 `MenuService.getMenuItems()` 從回傳寫死陣列改成用 `HttpClient` 打 `GET /menuItems`，回傳型別變成 `Observable<MenuItem[]>`
+- [x] **階段 3** — HttpClient + json-server 串接 RESTful API（對應必要③；順帶教 DevTools Network tab，對應加分①）
+  - [x] 裝 `json-server`（devDependency），`npx json-server --watch db.json --port 3000`（要在專案根目錄執行，不是 `src/app`）
+  - [x] `app.config.ts` 加 `provideHttpClient()`
+  - [x] `MenuService.getMenuItems()` 改用 `HttpClient.get<MenuItem[]>(url)`，回傳 `Observable<MenuItem[]>`
+  - [x] `MenuListComponent` 改用 `.subscribe((data) => { this.menuItems = data; })` 拿資料
+  - [x] 驗證：畫面顯示 11 筆真實資料、DevTools Network tab 看到 `GET localhost:3000/menuItems` 200/304
 - [ ] **階段 4** — Routing + Lazy loading（對應加分③）
+  - 下一步：照 `docs/user-flow.puml` 的 6 個畫面規劃，把 `/menu` 路由指到現有的 `MenuListComponent`，其餘頁面（cart, orders/:id, admin/*）先建空殼元件掛路由
 - [ ] **階段 5** — Reactive Forms（對應必要②）
 - [ ] **階段 6** — Angular Material（UI 元件庫）（對應必要④）
 - [ ] **階段 7** — TypeScript 進階（interface、generics、strict mode）（對應加分②，穿插在每階段中）
@@ -108,6 +113,9 @@
 - Dependency Injection：不用像 React hook 主動呼叫，在 constructor 參數寫 `private xxxService: XxxService`，Angular 自動生成並傳入 instance（控制反轉）；`@Injectable({ providedIn: 'root' })` 效果類似 React Context Provider 包在 App 最外層，全 app 共用一份
 - 空陣列 `= []` 沒有明確標型別時，TypeScript 會推斷成 `never[]`（不能放任何東西），之後賦值會報型別錯誤——陣列一定要明確標型別，不能靠空陣列讓 TS 自己猜
 - interface 不建議寫在 service 檔案裡，應獨立放 `models/` 資料夾（如 `menu-item.model.ts`），service 跟 component 都從同一處 import，避免形狀重複定義、之後改一個地方就好
+- Observable（RxJS）vs Promise：Promise 呼叫當下就送出（eager），Observable 呼叫 `http.get()` 只是準備請求，要 `.subscribe()` 才真的發送（lazy）。不 subscribe，Network tab 完全不會有 request
+- standalone 架構下，全 app 共用的服務（如 `provideHttpClient()`、`provideRouter()`）註冊在 `app.config.ts` 的 `providers: []`，取代舊版 `NgModule` 的角色
+- json-server 要在專案根目錄（`db.json` 所在位置）執行 `--watch db.json`，在錯的資料夾執行會自動生成一份 typicode 預設範例資料，覆蓋不了你的真實資料但容易搞混
 
 ---
 

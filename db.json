@@ -1,0 +1,41 @@
+{
+  "menuItems": [
+    { "id": 1, "name": "火腿蛋吐司", "price": 13, "category": "吐司", "description": "Taiwanese style sandwich with ham, a fried egg, mayo, cucumber, salt and pepper", "stockStatus": "available" },
+    { "id": 2, "name": "肉鬆起司蛋吐司", "price": 14, "category": "吐司", "description": "Taiwanese style sandwich with pork floss, a fried egg and cheese", "stockStatus": "available" },
+    { "id": 3, "name": "素肉鬆吐司", "price": 16, "category": "吐司", "description": "Taiwanese style vegetarian sandwich with a fried egg, imitation vegetarian pork floss, lettuce, cucumber and mayo", "stockStatus": "available" },
+    { "id": 4, "name": "台式豬肉吐司", "price": 18, "category": "吐司", "description": "Taiwanese style sandwich with a pork patty, cucumber, mayo, lettuce, a fried egg, tomato, pork floss, salt and pepper", "stockStatus": "restocking" },
+    { "id": 5, "name": "蒜味香腸吐司", "price": 17, "category": "吐司", "description": "Taiwanese style sandwich with garlic sausage, a fried egg, onion, lettuce, mayo, salt and pepper", "stockStatus": "available" },
+    { "id": 6, "name": "酸菜花生肉排吐司", "price": 17, "category": "吐司", "description": "Taiwanese style sandwich with a pan-fried pork fillet, pickled mustard greens, peanut butter, a fried egg, lettuce, tomato and mayo", "stockStatus": "available" },
+    { "id": 7, "name": "剝皮辣椒肉排吐司", "price": 17, "category": "吐司", "description": "Taiwanese style sandwich with a pan-fried pork fillet, picked green chilli, a fried egg, lettuce, tomato and mayo", "stockStatus": "soldOut" },
+    { "id": 8, "name": "皮蛋肉鬆吐司", "price": 18, "category": "吐司", "description": "Taiwanese style sandwich with century egg, a fried egg, pork floss, ham, cucumber, lettuce and mayo", "stockStatus": "available" },
+    { "id": 9, "name": "培根肉排花生起司蛋吐司", "price": 18, "category": "吐司", "description": "Taiwanese style sandwich with bacon, pork fillet, peanut butter, cheese, a fried egg and lettuce", "stockStatus": "available" },
+    { "id": 10, "name": "香雞排漢堡", "price": 18, "category": "漢堡", "description": "Taiwanese style burger with deep-fried chicken, lettuce, tomato, onion, a fried egg and aioli", "stockStatus": "available" },
+    { "id": 11, "name": "台式豬肉漢堡", "price": 17, "category": "漢堡", "description": "Taiwanese style burger with a pork patty, lettuce, tomato, onion, a fried egg and tomato sauce", "stockStatus": "available" }
+  ],
+  "orders": [
+    {
+      "id": 40,
+      "items": [{ "menuItemId": 1, "name": "火腿蛋吐司", "qty": 2, "price": 13 }],
+      "status": "ready",
+      "customerNotified": true,
+      "createdAt": "2026-08-17T12:50:00Z"
+    },
+    {
+      "id": 41,
+      "items": [{ "menuItemId": 10, "name": "香雞排漢堡", "qty": 1, "price": 18 }],
+      "status": "inProgress",
+      "customerNotified": false,
+      "createdAt": "2026-08-17T12:56:00Z"
+    },
+    {
+      "id": 42,
+      "items": [
+        { "menuItemId": 4, "name": "台式豬肉吐司", "qty": 1, "price": 18 },
+        { "menuItemId": 1, "name": "火腿蛋吐司", "qty": 1, "price": 13 }
+      ],
+      "status": "received",
+      "customerNotified": false,
+      "createdAt": "2026-08-17T12:59:00Z"
+    }
+  ]
+}

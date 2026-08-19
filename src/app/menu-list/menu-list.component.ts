@@ -13,6 +13,8 @@ export class MenuListComponent {
   menuItems: MenuItem[] = [];
 
   constructor(private menuService: MenuService) {
-    this.menuItems = this.menuService.getMenuItems();
+    this.menuService.getMenuItems().subscribe((data) => {
+      this.menuItems = data;
+    });
   }
 }
